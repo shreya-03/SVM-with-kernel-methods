@@ -1,0 +1,13 @@
+clear all;
+Data = dlmread('arcene_train.data',' ');
+k = 10;
+gamma = 0.5;
+type = 'rbf';
+x = KPCA(Data, k, gamma,type);
+TrLabels = dlmread('arcene_train.labels',' ');
+svmobj = svmtrain(x,TrLabels,'kernel_function','rbf','rbf_sigma',1);
+Valid_data = dlmread('arcene_valid.data',' ');
+valid_x = KPCA(Valid_data, k, gamma,type);
+ValidLabels = dlmread('arcene_valid.labels',' ');
+Labels = svmclassify(svmobj,valid_x);
+accuracy = mean(Labels == ValidLabels);
